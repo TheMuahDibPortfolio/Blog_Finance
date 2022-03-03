@@ -6,15 +6,14 @@
 
 https://TheMuahDibPortfolio.github.io/Blog_Finance/
 
-# My Blog
-
-_powered by [fastpages](https://github.com/fastai/fastpages)_
+# Blog_finance
 
 ## What To Do Next?
 
-1. Change the _config.yml file as this [video](https://www.youtube.com/watch?v=L0boq3zqazI)
-2. 
-
-Note: you may want to remove example blog posts from the `_posts`,  `_notebooks` or `_word` folders (but leave them empty, don't delete these folders) if you don't want these blog posts to appear on your site.
+1. Change the _config.yml file as this [video](https://www.youtube.com/watch?v=L0boq3zqazI).
+2. Remove example blog posts from the `_posts`,  `_notebooks` or `_word` folders (but leave them empty, don't delete these folders).
+3. Upload the logo as this [video](https://www.youtube.com/watch?v=sepml4GLLSM) shows at 13:50 min
+4. Go to the folder _pages and change the aboutme page
+5. Go to the index.html and modify it to show what you wish
 
 Please use the [nbdev & blogging channel](https://forums.fast.ai/c/fastai-users/nbdev/48) in the fastai forums for any questions or feature requests.
