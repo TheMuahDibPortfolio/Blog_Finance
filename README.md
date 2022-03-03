@@ -15,4 +15,5 @@ https://TheMuahDibPortfolio.github.io/Blog_Finance/
 3. Upload the logo as this [video](https://www.youtube.com/watch?v=sepml4GLLSM) shows at 13:50 min
 4. Go to the folder _pages and change the aboutme page
 5. Go to the index.html and modify it to show what you wish
-6. Please use the [nbdev & blogging channel](https://forums.fast.ai/c/fastai-users/nbdev/48) in the fastai forums for any questions or feature requests.
+6. Go to [jekyll minima](https://github.com/jekyll/minima) to learn how to further modify the blog
+7. Please use the [nbdev & blogging channel](https://forums.fast.ai/c/fastai-users/nbdev/48) in the fastai forums for any questions or feature requests.
