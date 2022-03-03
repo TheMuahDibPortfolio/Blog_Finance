@@ -18,6 +18,7 @@ You must save your notebook with the naming convention `YYYY-MM-DD-*.ipynb`.  Ex
 - hide_binder_badge: true
 - comments: true
 - categories: [Network Analysis, Intellectual property, Patent data]
+- image: image/trading.jfif
 ```
 
 
