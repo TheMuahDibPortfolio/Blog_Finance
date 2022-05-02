@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Portfolio Optimization | Economics portfolio</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Portfolio Optimization" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This model is an example of the classic Markowitz portfolio selection optimization model model with vector and matrix data for returns and risk, respectively." />
+<meta property="og:description" content="This model is an example of the classic Markowitz portfolio selection optimization model model with vector and matrix data for returns and risk, respectively." />
+<link rel="canonical" href="https://themuahdibportfolio.github.io/Blog_Finance/investment%20strategy/portfolio%20optimization/financial%20modelling/markowitz%20portfolio%20selection/risk%20&%20return/quadratic%20programming/mathematical%20optimization/gurobi/python/2022/05/01/_05_02.html" />
+<meta property="og:url" content="https://themuahdibportfolio.github.io/Blog_Finance/investment%20strategy/portfolio%20optimization/financial%20modelling/markowitz%20portfolio%20selection/risk%20&%20return/quadratic%20programming/mathematical%20optimization/gurobi/python/2022/05/01/_05_02.html" />
+<meta property="og:site_name" content="Economics portfolio" />
+<meta property="og:image" content="https://themuahdibportfolio.github.io/Blog_Finance/images/when-did-you-become-an-expert-in-markowitz-portfolio-optimization-last-night.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-01T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://themuahdibportfolio.github.io/Blog_Finance/images/when-did-you-become-an-expert-in-markowitz-portfolio-optimization-last-night.png" />
+<meta property="twitter:title" content="Portfolio Optimization" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-05-01T00:00:00-05:00","datePublished":"2022-05-01T00:00:00-05:00","description":"This model is an example of the classic Markowitz portfolio selection optimization model model with vector and matrix data for returns and risk, respectively.","headline":"Portfolio Optimization","image":"https://themuahdibportfolio.github.io/Blog_Finance/images/when-did-you-become-an-expert-in-markowitz-portfolio-optimization-last-night.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://themuahdibportfolio.github.io/Blog_Finance/investment%20strategy/portfolio%20optimization/financial%20modelling/markowitz%20portfolio%20selection/risk%20&%20return/quadratic%20programming/mathematical%20optimization/gurobi/python/2022/05/01/_05_02.html"},"url":"https://themuahdibportfolio.github.io/Blog_Finance/investment%20strategy/portfolio%20optimization/financial%20modelling/markowitz%20portfolio%20selection/risk%20&%20return/quadratic%20programming/mathematical%20optimization/gurobi/python/2022/05/01/_05_02.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Blog_Finance/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://themuahdibportfolio.github.io/Blog_Finance/feed.xml" title="Economics portfolio" /><link rel="shortcut icon" type="image/x-icon" href="/Blog_Finance/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Blog_Finance/">Economics portfolio</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Blog_Finance/about/">About Me</a><a class="page-link" href="/Blog_Finance/search/">Search</a><a class="page-link" href="/Blog_Finance/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Portfolio Optimization</h1><p class="page-description">This model is an example of the classic <a href='https://en.wikipedia.org/wiki/Markowitz_model). We want to find the fraction of the portfolio to invest among a set of stocks that balances risk and return. It is a Quadratic Programming (QP'>Markowitz portfolio selection optimization model</a> model with vector and matrix data for returns and risk, respectively.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-01T00:00:00-05:00" itemprop="datePublished">
+        May 1, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Investment strategy">Investment strategy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Portfolio Optimization">Portfolio Optimization</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Financial Modelling">Financial Modelling</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Markowitz Portfolio Selection">Markowitz Portfolio Selection</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Risk & Return">Risk & Return</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Quadratic Programming">Quadratic Programming</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Mathematical OPtimization">Mathematical OPtimization</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Gurobi">Gurobi</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog_Finance/categories/#Python">Python</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/TheMuahDibPortfolio/Blog_Finance/tree/master/_notebooks/2022_05_02.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/Blog_Finance/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/TheMuahDibPortfolio/Blog_Finance/blob/master/_notebooks/2022_05_02.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog_Finance/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Problem-Statement">Problem Statement </a></li>
+<li class="toc-entry toc-h2"><a href="#Model-Formulation">Model Formulation </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Sets-&-Indices">Sets &amp; Indices </a></li>
+<li class="toc-entry toc-h3"><a href="#Parameters">Parameters </a></li>
+<li class="toc-entry toc-h3"><a href="#Decision-Variables">Decision Variables </a></li>
+<li class="toc-entry toc-h3"><a href="#Objective-Function">Objective Function </a></li>
+<li class="toc-entry toc-h3"><a href="#Constraints">Constraints </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#1)-Minimum-return">1) Minimum return </a></li>
+<li class="toc-entry toc-h2"><a href="#2)-What-if-we-cannot-invest-more-than-half-of-our-money-in-stocks-1-and-2?">2) What if we cannot invest more than half of our money in stocks 1 and 2? </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Parameters">Parameters </a></li>
+<li class="toc-entry toc-h3"><a href="#Constraints">Constraints </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022_05_02.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Problem-Statement">
+<a class="anchor" href="#Problem-Statement" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem Statement<a class="anchor-link" href="#Problem-Statement"> </a>
+</h2>
+<p>The expected return and standard deviation of stock 1 are 4% and 3%, respectively. For stock 2, the expected return and standard deviation are 2% and 2%, respectively. For stock 3, the expected return and standard deviation are 1% and 1.5%, respectively. Suppose the correlation between stocks 1 and 2 is 0.2, between stocks
+1 and 3 0.4, and between stocks 2 and 3 0.1.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-Formulation">
+<a class="anchor" href="#Model-Formulation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Formulation<a class="anchor-link" href="#Model-Formulation"> </a>
+</h2>
+<h3 id="Sets-&amp;-Indices">
+<a class="anchor" href="#Sets-&amp;-Indices" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sets &amp; Indices<a class="anchor-link" href="#Sets-&amp;-Indices"> </a>
+</h3>
+<p>$i ∈ \text{stock} = \{1,2,3\}$: set of stocks</p>
+<h3 id="Parameters">
+<a class="anchor" href="#Parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters<a class="anchor-link" href="#Parameters"> </a>
+</h3>
+<p>$\mu_i ∈ \mathbb{R}^+$:  expected return of stock $i$</p>
+<p>$\sigma_i ∈ \mathbb{R}^+$:  standard deviation of stock $i$</p>
+<p>$b ∈ \mathbb{R}^+$:  the minimum required expected return for the portfolio.</p>
+<h3 id="Decision-Variables">
+<a class="anchor" href="#Decision-Variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Decision Variables<a class="anchor-link" href="#Decision-Variables"> </a>
+</h3>
+<ul>
+<li>$x_i$: n-element vector where each element represents the fraction of the porfolio to invest in each stock</li>
+</ul>
+<h3 id="Objective-Function">
+<a class="anchor" href="#Objective-Function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Objective Function<a class="anchor-link" href="#Objective-Function"> </a>
+</h3>\begin{equation}
+\text{Minimize} \sum_{i=1}^{n} \sum_{j=1}^{n} \mu_i \mu_j \sigma_{ij}  \tag{0}
+\end{equation}<h3 id="Constraints">
+<a class="anchor" href="#Constraints" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constraints<a class="anchor-link" href="#Constraints"> </a>
+</h3>
+<ul>
+<li>
+<strong>minimum expected return</strong> </li>
+</ul>
+\begin{equation}
+\sum_{i=1}^{n} \mu_i x_i \geq b
+\tag{1}
+\end{equation}<ul>
+<li>
+<strong>total investment</strong> </li>
+</ul>
+\begin{equation}
+\sum_{i=1}^{n} x_i = 1
+\tag{2}
+\end{equation}<ul>
+<li>
+<strong>not short-selling</strong> </li>
+</ul>
+\begin{equation}
+x_i \geq 0 \quad \forall i \in \text{stock}
+\tag{3}
+\end{equation}
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1)-Minimum-return">
+<a class="anchor" href="#1)-Minimum-return" aria-hidden="true"><span class="octicon octicon-link"></span></a>1) Minimum return<a class="anchor-link" href="#1)-Minimum-return"> </a>
+</h2>
+<p>Find the portfolio with the lowest risk, among those with an expected return of at least 2%</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">gurobipy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting gurobipy
+  Downloading gurobipy-9.5.1-cp37-cp37m-manylinux2014_x86_64.whl (11.5 MB)
+     |████████████████████████████████| 11.5 MB 4.4 MB/s 
+Installing collected packages: gurobipy
+Successfully installed gurobipy-9.5.1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gu</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">#number of stocks</span>
+<span class="n">ExpectedReturn</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span> <span class="c1">#vector of expected returns with length n</span>
+<span class="n">Covariance</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.00012</span><span class="p">,</span> <span class="mf">0.00018</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.00012</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.00018</span><span class="p">,</span> <span class="mf">0.00003</span><span class="p">,</span> <span class="mf">0.015</span><span class="p">]]</span>
+<span class="c1">#covariance matrix with dimension nxn</span>
+<span class="n">MinReturn</span> <span class="o">=</span> <span class="mf">0.02</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">gu</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s2">"Portfolio Optimization 1"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Restricted license - for non-production use only - expires 2023-10-25
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">StockWeight</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'StockWeight'</span><span class="p">,</span> <span class="n">lb</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">gu</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">StockWeight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">StockWeight</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">Covariance</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)),</span> <span class="n">gu</span><span class="o">.</span><span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">StockWeight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'SumofWeights'</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">StockWeight</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">ExpectedReturn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">MinReturn</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'ConstraintonMinReturn'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;gurobi.Constr *Awaiting Model Update*&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Gurobi Optimizer version 9.5.1 build v9.5.1rc2 (linux64)
+Thread count: 1 physical cores, 2 logical processors, using up to 2 threads
+Optimize a model with 2 rows, 3 columns and 6 nonzeros
+Model fingerprint: 0x390fa4c2
+Model has 6 quadratic objective terms
+Coefficient statistics:
+  Matrix range     [1e-02, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [1e-04, 6e-02]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e-02, 1e+00]
+Presolve time: 0.02s
+Presolved: 2 rows, 3 columns, 6 nonzeros
+Presolved model has 6 quadratic objective terms
+Ordering time: 0.00s
+
+Barrier statistics:
+ Free vars  : 2
+ AA' NZ     : 6.000e+00
+ Factor NZ  : 1.000e+01
+ Factor Ops : 3.000e+01 (less than 1 second per iteration)
+ Threads    : 1
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   3.20152377e+05 -3.20152377e+05  2.50e+03 2.47e-07  1.00e+06     0s
+   1   1.15177644e+04 -1.17907196e+04  1.97e+02 1.95e-08  8.42e+04     0s
+   2   4.34195814e-02 -3.58271785e+02  6.80e-01 6.72e-11  3.82e+02     0s
+   3   6.98591118e-03 -1.98336951e+02  6.80e-07 6.94e-17  4.96e+01     0s
+   4   6.98585719e-03 -1.92714187e-01  4.66e-12 0.00e+00  4.99e-02     0s
+   5   6.95633171e-03  5.66424294e-03  1.48e-14 0.00e+00  3.23e-04     0s
+   6   6.75813420e-03  6.68576945e-03  6.94e-17 6.94e-18  1.81e-05     0s
+   7   6.73329099e-03  6.72497295e-03  3.41e-15 2.74e-18  2.08e-06     0s
+   8   6.72958274e-03  6.72842709e-03  1.83e-14 1.25e-18  2.89e-07     0s
+   9   6.72896822e-03  6.72882136e-03  5.30e-14 6.94e-18  3.67e-08     0s
+  10   6.72886123e-03  6.72885109e-03  6.70e-14 2.74e-19  2.54e-09     0s
+  11   6.72885183e-03  6.72885180e-03  1.17e-13 6.94e-18  6.72e-12     0s
+
+Barrier solved model in 11 iterations and 0.05 seconds (0.00 work units)
+Optimal objective 6.72885183e-03
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getVars</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">varName</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>StockWeight[0] 0.221851545261853
+StockWeight[1] 0.3344459277157383
+StockWeight[2] 0.4437025270221763
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Objective function'</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Objective function 0.00672885182871444
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2)-What-if-we-cannot-invest-more-than-half-of-our-money-in-stocks-1-and-2?">
+<a class="anchor" href="#2)-What-if-we-cannot-invest-more-than-half-of-our-money-in-stocks-1-and-2?" aria-hidden="true"><span class="octicon octicon-link"></span></a>2) What if we cannot invest more than half of our money in stocks 1 and 2?<a class="anchor-link" href="#2)-What-if-we-cannot-invest-more-than-half-of-our-money-in-stocks-1-and-2?"> </a>
+</h2>
+<p>To answer part 2, we need to add a new constraint involving stocks’ 1 and 2 decision variables.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Parameters">
+<a class="anchor" href="#Parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parameters<a class="anchor-link" href="#Parameters"> </a>
+</h3>
+<p>$a ∈ \mathbb{R}^+$:  the maximum required investment for the stock 1 and 2.</p>
+<h3 id="Constraints">
+<a class="anchor" href="#Constraints" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constraints<a class="anchor-link" href="#Constraints"> </a>
+</h3>
+<ul>
+<li>
+<strong>Maximum investment</strong> </li>
+</ul>
+\begin{equation}
+x_1 + x_2 = a
+\tag{1}
+\end{equation}
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">MaxInvest</span> <span class="o">=</span> <span class="mf">0.5</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">StockWeight</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">StockWeight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">MaxInvest</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">'MaxInvest'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;gurobi.Constr *Awaiting Model Update*&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Gurobi Optimizer version 9.5.1 build v9.5.1rc2 (linux64)
+Thread count: 1 physical cores, 2 logical processors, using up to 2 threads
+Optimize a model with 3 rows, 3 columns and 8 nonzeros
+Model fingerprint: 0xb98dfd3d
+Model has 6 quadratic objective terms
+Coefficient statistics:
+  Matrix range     [1e-02, 1e+00]
+  Objective range  [0e+00, 0e+00]
+  QObjective range [1e-04, 6e-02]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [2e-02, 1e+00]
+Presolve time: 0.02s
+Presolved: 3 rows, 3 columns, 8 nonzeros
+Presolved model has 6 quadratic objective terms
+Ordering time: 0.00s
+
+Barrier statistics:
+ Free vars  : 2
+ AA' NZ     : 1.000e+01
+ Factor NZ  : 1.500e+01
+ Factor Ops : 5.500e+01 (less than 1 second per iteration)
+ Threads    : 1
+
+                  Objective                Residual
+Iter       Primal          Dual         Primal    Dual     Compl     Time
+   0   3.20072058e+05 -3.20072058e+05  2.50e+03 6.01e-02  1.00e+06     0s
+   1   4.83954583e+03 -5.08987963e+03  2.54e+02 6.11e-03  1.05e+05     0s
+   2   3.32693448e-02 -3.05887397e+02  5.42e-01 1.30e-05  3.01e+02     0s
+   3   6.97658803e-03 -1.15906961e+02  5.42e-07 1.30e-11  2.90e+01     0s
+   4   6.97658263e-03 -1.09052744e-01  5.43e-13 1.35e-14  2.90e-02     0s
+   5   6.97397122e-03  6.75207038e-03  1.11e-15 1.04e-16  5.55e-05     0s
+   6   6.94299555e-03  6.94200376e-03  1.11e-16 6.94e-18  2.48e-07     0s
+   7   6.94250050e-03  6.94249950e-03  8.33e-16 6.94e-18  2.48e-10     0s
+
+Barrier solved model in 7 iterations and 0.05 seconds (0.00 work units)
+Optimal objective 6.94250050e-03
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">getVars</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">varName</span><span class="p">,</span> <span class="n">var</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>StockWeight[0] 0.25000009613332785
+StockWeight[1] 0.24999990386667328
+StockWeight[2] 0.5000000000000022
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Objective function'</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Objective function 0.006942500495087108
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="TheMuahDibPortfolio/Blog_Finance"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/Blog_Finance/investment%20strategy/portfolio%20optimization/financial%20modelling/markowitz%20portfolio%20selection/risk%20&%20return/quadratic%20programming/mathematical%20optimization/gurobi/python/2022/05/01/_05_02.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Blog_Finance/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Blog_Finance/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Blog_Finance/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>This portfolio collects the application related to economic data.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/TheMuahDibPortfolio" target="_blank" title="TheMuahDibPortfolio"><svg class="svg-icon grey"><use xlink:href="/Blog_Finance/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
